@@ -113,4 +113,18 @@ Si nous sommes amenés à utiliser des cartes lors de la réalisation de notre d
 *Contraintes* : Les maps avec kepler prennent du temps à faire c'est pourquoi je demande à les réaliser que une fois que nous sommes sur de garder / réaliser cette map. 
 Avec la bibliothèque Chart.Js en réalisant une maquette de diagramme j'ai besoin d'avoir toute les données renseigné. 
 
+#### Chart.js, utilisation 
+
+Afin d'utiliser au mieux la bibliothèque de graphique Chart.js, nous avons créé un composant dans le dossier `shared` pour faciliter son utilisation. 
+
+Pour utiliser le composant graphique et générer un graphique, il faudra créer une div et appeler le composant `app-graph`qui contient une base pour intégrer des composants chart.js.
+
+Avec l'appel du composant `app-graph` il faudra passer des paramètres qui permetrons de constituer le graph : 
+- chartType : le type de graphique (bar, line, etc)
+- chartDatasets : le jeu de donné qui sera utilisé pour construire le graphique
+- chartLabel : les label qui seront utilisé pour construire le graphique
+- chartOptions : pour ajouter des options sur le graphique. 
+
+Pour comprendre l'utilisation de Chart.js se rendre sur [la documentation officiel](https://www.chartjs.org/docs/latest/) de Chart.js. 
+
 

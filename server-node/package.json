@@ -10,6 +10,7 @@
   "dependencies": {
     "@hapi/hapi": "~19.0.5",
     "@hapi/joi": "~17.0.2",
+    "@hapi/wreck": "^17.0.0",
     "demon": "~1.4.4",
     "dotenv": "^8.2.0",
     "knex": "~0.20.8",
