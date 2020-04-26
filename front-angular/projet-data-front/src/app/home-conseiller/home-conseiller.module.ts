@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { HomeConseillerComponent } from './home-conseiller/home-conseiller.component';
 import { SharedModule } from '../shared/shared.module';
 
+import { MatCardModule } from '@angular/material/card';
+import { HomeConseillerWelcomeComponent } from './home-conseiller-welcome/home-conseiller-welcome.component';
 
 
 @NgModule({
-  declarations: [HomeConseillerComponent],
+  declarations: [HomeConseillerComponent, HomeConseillerWelcomeComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    MatCardModule
   ],
-  exports: [HomeConseillerComponent],
+  exports: [HomeConseillerComponent, HomeConseillerWelcomeComponent],
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class HomeConseillerModule { }

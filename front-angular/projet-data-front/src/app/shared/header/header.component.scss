@@ -1,3 +1,10 @@
+.sticky {
+    position: fixed;
+    top: 0;
+    background-color: #fff;
+    z-index: 3;
+}
+
 .wrapper-header {
     border-bottom: 1px solid #E0E0E0;
     padding: 30px;

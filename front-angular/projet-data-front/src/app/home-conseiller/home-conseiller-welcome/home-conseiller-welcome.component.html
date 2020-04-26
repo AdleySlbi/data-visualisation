@@ -1,0 +1,23 @@
+<div class="row wrapper-hcw">
+    <div class="col-md-3">
+        <!-- Graph -->
+        @TODO The graph
+    </div>
+    <div class="col-md-8 hcw-text-wrapper">
+        <div class="row justify-content-between">
+            <span class="hcw-text-hello">Bonjour {{name}} !</span>
+            <span *ngIf="datePipeString" class="hcw-date">{{ datePipeString }}</span>
+        </div>
+        <div class="row">
+            <span>
+                Aujourd’hui vous avez <span class="hcw-highlights">45 conversations clients</span> à poursuivre, dont <span class="hcw-highlights">13 nouvelles conversations</span> et <span class="hcw-highlights">32 conversations existantes</span>. 
+            </span> 
+        </div>
+        <div class="row">
+            <span>
+                Il y a aussi <span class="hcw-highlights">27 bilans trimestriels</span> dont les nouveaux objectifs nécessitent votre validation et <span class="hcw-highlights">97 foyers</span> qui ont besoin de votre attention particulière.
+            </span>
+        </div>
+    </div>
+
+</div>
