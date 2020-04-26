@@ -11,6 +11,7 @@ import { TestGraphComponent } from './test-graph/test-graph.component';
 import { HomeConseillerModule } from './home-conseiller/home-conseiller.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
+import { MyCustomersModule } from './my-customers/my-customers.module';
 
 
 
@@ -26,7 +27,8 @@ import { MatCardModule } from '@angular/material/card';
     SharedModule,
     HomeConseillerModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    MyCustomersModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
