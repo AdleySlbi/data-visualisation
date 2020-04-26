@@ -2,10 +2,11 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Lato', sans-serif !important;
 }
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import url('https://fonts.googleapis.com/css?family=Material+Icons|Lato:300,400,700,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: 'Lato', sans-serif !important; }
