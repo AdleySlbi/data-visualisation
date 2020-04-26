@@ -64,6 +64,16 @@ constructor(
     private apiservice: ApiService,
 ){}
 ```
+
+#### Shared
+Dans le module Shared, nous placerons tous les composants qui seront créé  afin d'être utilisé dans plusieurs composant. 
+
+Pour créer un composant Shared : 
+
+```
+ng g c shared/COMPOSANT_NAME --export
+```
+
 #### Utilisation de l'API 
 Pour importer les données depuis l'API : 
 1. Réaliser une fonction qui va réaliser la requête souhaité (lien de l'API) dans le service `api.service.ts`. 
