@@ -26,7 +26,7 @@ export class MyCustomersTableComponent implements OnInit {
   private sort: MatSort;
   public dataSource: MatTableDataSource<any>;
 
-  columnsToDisplay = [ 'name', 'id', 'customersince', 'zipcode', 'niveau', 'categorie', 'ratioconso'];
+  columnsToDisplay = [ 'name', 'customersince', 'zipcode', 'niveau', 'categorie', 'ratioconso'];
 
   constructor() { }
 
@@ -35,7 +35,13 @@ export class MyCustomersTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.my_customers);
   }
 
-  ngAfterViewInit(){
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   setDataSourceAttributes() {
