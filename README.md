@@ -9,6 +9,19 @@ Chaque dossier aura sa partie de dédier dans cette documentation.
 ## SERVER-NODE | back
 @TO-DO : Expliquer le système de root et la liaison avec l'API. 
 
+### Requêtes SQL importantes : 
+Récupérer les ID commun aux tables `history_daily` & `history_fronius` : 
+```
+SELECT DISTINCT hd.id, hf.device_id FROM history_daily AS hd INNER JOIN history_fronius AS hf ON hf.device_id = UUID(hd.id)
+```
+
+Récupérer les infos des clients pour les ajouter dans une nouvelle table `client_info`: 
+
+```
+INSERT INTO client_info(id, name, adresse, zipcode, country, modele_panneau)
+SELECT DISTINCT UUID(hd.id), hd.name, hd.street, hd.zipcode, hd.country, hf.device_type  FROM history_daily AS hd INNER JOIN history_fronius AS hf ON hf.device_id = UUID(hd.id)
+```
+
 ### Utilisation de .Env 
 Dans le dossier .env de notre serveur node, nous avons laissé toute les données sensibles dans ce fichier afin qu'elle ne soit pas récupérable sur le dossier git du projet. 
 
@@ -86,7 +99,19 @@ Dans le fichier api.service.ts :
         return this.http.get(this.APILink);
     }
     ```
-2. Dans le composant principal de l'outil, nous déclarerons une variable vide pour y affecter la donnée. 
+2. Dans le composant principal de l'outil, il faut importer le service ApiService de la sorte : 
+    ```
+    import { ApiService } from './services/api.service';
+    ```
+    Il faut également le déclarer dans le constructor du composant principal de la sorte : 
+    ```
+    constructor(
+        private apiservice: ApiService,
+    ){}
+    ```
+
+
+3. Toujours dans le composant principal de l'outil, nous déclarerons une variable vide pour y affecter la donnée récupéré via l'api. 
 Une fonction qui appelera la fonction du `ApiService` affectera la donnée récupéré dans le service pour l'affecter à la variable vide déclaré avant la fonction.
 Tous les appels de données se feront dans ce composant pour avoir une vue d'ensemble sur les données. 
 

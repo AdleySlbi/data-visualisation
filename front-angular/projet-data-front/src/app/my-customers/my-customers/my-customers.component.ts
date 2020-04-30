@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ApiService } from '../../services/api.service';
+
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
+
 @Component({
   selector: 'app-my-customers',
   templateUrl: './my-customers.component.html',
@@ -7,9 +14,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyCustomersComponent implements OnInit {
 
-  constructor() { }
+  public my_customers = null;
+
+  constructor(
+    private apiservice: ApiService,
+  ) { }
 
   ngOnInit(): void {
+    this.getMyCustomers();
+  }
+
+  getMyCustomers(){
+    this.apiservice.getMesClients().subscribe((data) => {
+      this.my_customers = data;
+    })
   }
 
 }

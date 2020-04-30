@@ -29,6 +29,9 @@ const init = async () => {
     server.route(require('./routes/base').test);
     server.route(require('./routes/solcast').solcast);
 
+    // Ecran mes clients : récupérer tous les clients du conseiller
+    server.route(require('./routes/clients').mes_clients);
+
     await server.start();
 
     console.log('Server running on %s', server.info.uri);
