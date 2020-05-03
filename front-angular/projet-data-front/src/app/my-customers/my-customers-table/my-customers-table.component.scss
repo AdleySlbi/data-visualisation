@@ -1,3 +1,33 @@
-table {
+.total_client {
+    font-size: 24px;
+    color: #254050;
+}
+
+.my-customers-table {
     width: 100%;
+    td {
+        font-size: 14px;
+    }
+}
+
+.bilan-status {
+    display: block;
+    padding: 5px 0;
+    margin-right: 10px;
+    text-align: center;
+}
+
+.a-envoyer {
+    color: #E74A50;
+    background-color: #E74A5020; 
+}
+
+.a-valider {
+    color: #fbdb3c;
+    background-color: #FBDB3C20; 
+}
+
+.a-check {
+    color: #69AF23; 
+    background-color: #69AF2320; 
 }

@@ -22,6 +22,11 @@ INSERT INTO client_info(id, name, adresse, zipcode, country, modele_panneau)
 SELECT DISTINCT UUID(hd.id), hd.name, hd.street, hd.zipcode, hd.country, hf.device_type  FROM history_daily AS hd INNER JOIN history_fronius AS hf ON hf.device_id = UUID(hd.id)
 ```
 
+Récupérer le taux d'auto-consommation par client : 
+```
+SELECT DISTINCT id, ((SUM(hd.from_gen_to_consumer) / (SUM(hd.from_gen_to_consumer) + SUM(hd.from_gen_to_grid))) * 100) FROM history_daily AS hd INNER JOIN history_fronius AS hf ON hf.device_id = UUID(hd.id) GROUP BY id;
+```
+
 ### Utilisation de .Env 
 Dans le dossier .env de notre serveur node, nous avons laissé toute les données sensibles dans ce fichier afin qu'elle ne soit pas récupérable sur le dossier git du projet. 
 

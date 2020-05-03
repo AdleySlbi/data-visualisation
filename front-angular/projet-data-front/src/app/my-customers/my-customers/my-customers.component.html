@@ -2,19 +2,10 @@
     <div class="row">
         <mat-card class="col-md-12">
             <div class="row">
-                <span class="col-md-3">Mes clients (XXX)</span>
-                <div class="col-md-3">
-                    <span>Searchbar</span>
-                </div>
-                <div class="col-md-3">
-                    <button mat-raised>Créer une nouvelle liste</button>
-                </div>
-            </div>
-            <div class="row">
                 <div *ngIf="!my_customers">
                     <mat-spinner >Récupération des clients...</mat-spinner>
                 </div>
-                <app-my-customers-table *ngIf="my_customers" [my_customers]="my_customers" class="col-md-12"></app-my-customers-table>
+                <app-my-customers-table *ngIf="my_customers" [my_customers]="my_customers.rows" class="col-md-12 wrapper-customers-table"></app-my-customers-table>
             </div>  
         </mat-card>
     </div>
