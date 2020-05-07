@@ -30,4 +30,12 @@ export class MyCustomersComponent implements OnInit {
     })
   }
 
+
+  // Faire l'appel de donné avec des filtres
+  getMyCustomersFilters(filtersArray){
+    this.apiservice.getMesClientsFilter().subscribe((data) => {
+      this.my_customers = data;
+    })
+  }
+
 }

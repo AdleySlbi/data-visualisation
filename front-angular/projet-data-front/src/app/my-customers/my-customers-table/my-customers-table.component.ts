@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 
 import { MatSort } from '@angular/material/sort';
 
@@ -12,6 +14,9 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./my-customers-table.component.scss']
 })
 export class MyCustomersTableComponent implements OnInit {
+
+  // Variable qui va être passé pour récupérer les données avec le filtre
+  @Output() filterToPassForWS = new EventEmitter();
 
   @Input() my_customers;
 
@@ -31,14 +36,27 @@ export class MyCustomersTableComponent implements OnInit {
   public total_client;
 
   // Ce qu'il y a à afficher dans le tableau
-  columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio'];
+  // columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio', 'contact'];
+  columnsToDisplay;
 
   constructor() { }
 
   ngOnInit(): void {
     // Execute la fonction qui va faire le ratio conso puis créer le tableau
     this.ratioConso();
+    this.columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio', 'contact'];
+
     this.total_client = this.num_client;
+  }
+
+
+  testOnClick() {
+    this.columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio'];
+    // Icic changer l'appel de fonction pour avoir la bonne requête sql
+  }
+
+  ngOnChanges(){
+    this.ratioConso();
   }
 
   // Pour pouvoir utiliser le filtre
@@ -94,6 +112,11 @@ export class MyCustomersTableComponent implements OnInit {
     });
     // Affectation et Utilisation du `MatTableDataSource` pour pouvoir créer le tableau et ajouter les filtres + pagination 
     this.dataSource = new MatTableDataSource(this.my_customers);
+  }
+
+  // On receptionne la liste des filtres pour ensuite le re-output vers le composant principal pour pouvoir faire l'appel de donné
+  onFilterPassed(theFilters){
+    this.filterToPassForWS.emit(theFilters);
   }
 
 }

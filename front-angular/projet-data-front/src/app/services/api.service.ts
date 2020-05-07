@@ -19,4 +19,9 @@ export class ApiService {
     return this.http.get(`http://localhost:3000/mes-clients`);
   }
 
+  // Lien vers l'exemple avec filtre
+  public getMesClientsFilter(){
+    return this.http.get(`http://localhost:3000/mes-clients-filter`)
+  }
+
 }

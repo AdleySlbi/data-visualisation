@@ -31,6 +31,7 @@ const init = async () => {
 
     // Ecran mes clients : récupérer tous les clients du conseiller
     server.route(require('./routes/clients').mes_clients);
+    server.route(require('./routes/clients').mes_clients_filters);
 
     await server.start();
 

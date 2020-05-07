@@ -7,7 +7,12 @@
     <div class="col-md-3 d-flex justify-content-end">
         <button mat-raised-button disabled>Créer une nouvelle liste</button>
     </div>
+
 </div>
+
+
+<app-my-customers-filter (filterToPass)="onFilterPassed($event)"></app-my-customers-filter>
+
 
 <table mat-table [dataSource]="dataSource" matSort class="my-customers-table">
     <!-- MatColumnDef = xxxx doit être égale au customer.xxxx -->
@@ -55,7 +60,10 @@
         <td mat-cell *matCellDef="let customer">{{ customer.ratio }}</td>
     </ng-container>
 
-
+    <ng-container matColumnDef="contact">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact </th>
+        <td mat-cell *matCellDef="let customer" class="cell-contact"><a href="tel:{{customer.tel}}"><img src="../../../assets/svg/tel.svg" alt=""></a><a href="mailto:{{customer.mail}}"><img src="../../../assets/svg/mail.svg" alt=""></a></td>
+    </ng-container>
 
 
     <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
