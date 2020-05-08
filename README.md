@@ -167,4 +167,30 @@ Avec l'appel du composant `app-graph` il faudra passer des paramètres qui perme
 
 Pour comprendre l'utilisation de Chart.js se rendre sur [la documentation officiel](https://www.chartjs.org/docs/latest/) de Chart.js. 
 
+### Router pour le front 
+Afin de naviguer dans notre application, le composant `app-routing.module.ts` a été mis en place. 
 
+Dans ce composant il faudra créer les routes possible vers les composants créés. Pour cela il faudra importer le composant au haut du fichier. 
+
+Exemple avec `TestGraphComponent` : 
+
+```
+import { TestGraphComponent } from './test-graph/test-graph.component';
+```
+
+Ensuite il faudra déclarer le chemin (path) qui sera affiché dans la barre URL et le component vers lequel pointer dans la demande du chemin dans la const routes du fichier `app-routing.module.ts` : 
+
+```
+{
+path: 'graph',
+component: TestGraphComponent
+}
+```
+
+En mettant l'adresse : `http://localhost:4200/graph` nous accederons donc au composant `TestGraphComponent`. 
+
+#### Créer des liens dans l'application
+Dans le cas où nous créerons des liens dans l'application, il suffit de rentrer ce que nous avons mis dans le `path` pour acceder au composant. Exemple pour arriver au composant TestGrapComponent : 
+````
+<a href="/graph"> Accéder au composant Graph </a>
+```
