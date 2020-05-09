@@ -7,10 +7,10 @@
         </mat-card>
         <mat-card *ngFor="let filter of listeFiltre" class="one-filter">
             <!-- <span class="col-md-2 one-filter"> Mes clients</span> -->
-            <span> {{ filter.filter }} </span>
+            <span id="{{filter.filter}}"> {{ filter.filter }} </span>
             <!-- On click supprimer le filtre -->
             <!-- @ToDo, Créer une la fonction pour supprimer le filtre -->
-            <span (click)=deleteFilter(filter) class="one-filter-croix">X</span>
+            <span (click)="deleteFilter('id')" class="one-filter-croix">X</span>
         </mat-card>
         
         <form [formGroup]="formForSelect" (ngSubmit)="onSubmit()">

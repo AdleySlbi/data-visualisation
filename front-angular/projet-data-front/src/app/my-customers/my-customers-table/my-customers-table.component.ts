@@ -4,9 +4,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-
-
+import {MatDialogModule, MatDialog} from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
+
+import { MyCustomersNewListComponent } from '../my-customers-new-list/my-customers-new-list.component';
+ 
 
 @Component({
   selector: 'app-my-customers-table',
@@ -39,7 +41,7 @@ export class MyCustomersTableComponent implements OnInit {
   // columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio', 'contact'];
   columnsToDisplay;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     // Execute la fonction qui va faire le ratio conso puis créer le tableau
@@ -107,7 +109,6 @@ export class MyCustomersTableComponent implements OnInit {
         the_customer["ratio"] = '1 - Excellent';
         the_customer["ratio_number"] = ratioConsoOne;
       }
-
       this.num_client = this.num_client + 1;
     });
     // Affectation et Utilisation du `MatTableDataSource` pour pouvoir créer le tableau et ajouter les filtres + pagination 
@@ -117,6 +118,17 @@ export class MyCustomersTableComponent implements OnInit {
   // On receptionne la liste des filtres pour ensuite le re-output vers le composant principal pour pouvoir faire l'appel de donné
   onFilterPassed(theFilters){
     this.filterToPassForWS.emit(theFilters);
+    document.getElementById('button-list').removeAttribute("disabled");
+  }
+
+  /**
+   * Fonction pour ouvrir la dialog box qui va permettre de créer une nouvelle liste client
+   */
+  openCreateList(){
+    let dialogRef = this.dialog.open(MyCustomersNewListComponent, {
+      width: '80%',
+      data: this.my_customers
+    })
   }
 
 }

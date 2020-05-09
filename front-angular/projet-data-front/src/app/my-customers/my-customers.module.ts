@@ -10,6 +10,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSelectModule } from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
 
 // Component 
 import { MyCustomersComponent } from './my-customers/my-customers.component';
@@ -19,11 +20,12 @@ import { MyCustomersFilterComponent } from './my-customers-filter/my-customers-f
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { from } from 'rxjs';
+import { MyCustomersNewListComponent } from './my-customers-new-list/my-customers-new-list.component';
 
 
 
 @NgModule({
-  declarations: [MyCustomersComponent, MyCustomersTableComponent, MyCustomersFilterComponent],
+  declarations: [MyCustomersComponent, MyCustomersTableComponent, MyCustomersFilterComponent, MyCustomersNewListComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -34,9 +36,10 @@ import { from } from 'rxjs';
     MatSortModule,
     MatInputModule,
     MatSelectModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
-  exports: [MyCustomersComponent, MyCustomersTableComponent, MyCustomersFilterComponent],
+  exports: [MyCustomersComponent, MyCustomersTableComponent, MyCustomersFilterComponent, MyCustomersNewListComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class MyCustomersModule { }

@@ -44,7 +44,7 @@ export class MyCustomersFilterComponent implements OnInit {
   // deleteFilter pour supprimer un filtre quand on click sur la croix
   deleteFilter(filterToDelete){
     // this.listeFiltre = this.listeFiltre
-    
+    console.log(filterToDelete);
   }
 
 }

@@ -5,7 +5,7 @@
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Nom du client, Adresse du client...">
     </mat-form-field>
     <div class="col-md-3 d-flex justify-content-end">
-        <button mat-raised-button disabled>Créer une nouvelle liste</button>
+        <button id="button-list" mat-raised-button disabled (click)="openCreateList()">Créer une nouvelle liste</button>
     </div>
 
 </div>

@@ -1,0 +1,18 @@
+.wrapper-new-list-component {
+    width: 100%;
+    .new-list-close-dialog {
+        &:hover {
+            cursor: pointer;
+        }
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+}
+
+.one-filter {
+    padding: 10px;
+    margin-right: 20px;
+    background-color: #A9A9A940;
+}
