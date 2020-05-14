@@ -1,13 +1,106 @@
 # Documentation, DATA Team 13
-@ToDo décrire le projet
-Il y a deux fichiers majeurs sur ce projet. Le back en Angular 9 dans le dossier `front-angular` et le dossier serveur node.js qui sert de serveur et de back dans le dossier `server-node`. 
+## Présentation du projet
 
-Chaque dossier aura sa partie de dédier dans cette documentation. 
+Ce repositorie est le fichier de rendu du projet scolaire : `projet data`. J'ai eu l'occasion de réaliser en quatrième année à la Web School Factory, de Janvier à Mai.
 
-*Vision marketing apporté par Hugo DUHAMEL. Conception graphique réalisé par Rachel WU, Zachary BENSALEM, Arthur DEBROUCKER. Projet réalisé par Adley SALABI pour la conception technique.* 
+Il y a deux dossiers majeurs dans ce projet, le [back-end](#SERVER-NODE) et le [front-end](#FRONT-ANGULAR). Une partie de la documentation est dédiée à chaque partie de ce projet. 
 
-## SERVER-NODE | back
-@TO-DO : Expliquer le système de root et la liaison avec l'API. 
+### Le back
+Le dossier `server-node` correspond à la partie back-end de notre application. Il a été réalisé en Node.js et utilise différents package pour réaliser au mieux les appels de données depuis la base de donnée. 
+[Accéder à la documentation du back](#SERVER-NODE)
+
+### Le front
+Le dossier `front-angular` correspond à la partie front-end de notre application. Il a été réalisé à l'aide du framework javascript Angular, la version 9. [Accéder à la documentation du front](#FRONT-ANGULAR)
+
+## D'où sort ce projet? 
+Ce projet est le résultat technique d'un projet de plus de 5 mois. Avant le développement technique nous avons procédé à différentes phases nottament un benchmark, une veille concurrentielle, des interviews, des sessions d'idéations, du maquettage, du prototypage ainsi que des tests utilisateurs. 
+
+Je serai ravis de vous parler plus de ce projet lors d'une rencontre. 
+
+*Vision marketing apporté par Hugo DUHAMEL. Conception graphique réalisé par Rachel WU, Zachary BENSALEM, Arthur DEBROUCKER. Conception technique réalisée par Adley SALABI.* 
+
+# SERVER-NODE
+
+## Présentation technique
+
+### Node.js 
+La partie back-end de l'application est réalisé à l'aide de la plateforme Javascript : `Node.js`. 
+
+#### Pour installer le projet 
+Pour installer tous les packages : 
+
+Dans le dossier PROJET_DATA : 
+
+```
+cd server-node
+npm install 
+```
+
+Les packages npm suivant sont installé : 
+- [hapi](https://hapi.dev)
+- [hapi.joi](https://hapi.dev/module/joi/)
+- [demon](https://www.npmjs.com/package/demon)
+- [nodemon](https://www.npmjs.com/package/nodemon)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [knex](https://www.npmjs.com/package/knex)
+- [node-fetch](https://www.npmjs.com/package/node-fetch)
+
+Pour lancer l'application : 
+Dans le dossier server-node : 
+```
+npm run start
+```
+
+## Récupération des données depuis la BDD 
+
+A l'aide du package [Hapi](https://hapi.dev/module/joi/) nous réalisons des appels vers la base de donnée. Les acccès à la base de donnée sont sécurisés et gardés en local à l'aide du package [.ENV](https://www.npmjs.com/package/dotenv.). 
+C'est dans ce dossier qu'il faudra ajouter les données d'accès à la BDD. 
+
+### Pour réaliser des requêtes SQL
+Pour récupérer les données, il faudra réaliser des requêtes SQL. P il faudra créer les routes d'API. 
+
+Dans le dossier `server-node`, après avoir ajouté les credentials de la base de donneé grâce au schéma suivant : 
+```
+DB_HOST='host'
+DB_USER='user'
+DB_PASSWORD='password'
+DB_TYPE='postgres'
+```
+
+Il faut se rendre dans le fichier `index.js`. Dans ce fichier, on trouvera dans la fonction init des varables qui permettent d'accéder aux données que nous souhaitons. 
+
+Pour créer une nouvelle route il faudra ajouter la ligne suivante : 
+```
+server.route(require('./routes/fichier-qui-contient-la-fonction-appel-api').fonction-appel-api);
+```
+
+Il faudra ensuite créer un fichier dans le dossier routes pour ajouter une `fonction-appel-api`. 
+
+Dans le fichier `./routes/fichier-qui-contient-la-fonction-appel-api` :
+```
+const joi = require('@hapi/joi');
+
+// Permet d'importer les credentiels
+const db = require('../config/database')
+
+// Récupère tous les clients sans filtre
+exports.mes_clients = {
+
+    // Méthode de la requête 
+    method: 'GET',
+    
+    // Path pour acceder à la requête
+    path: '/mes-clients',
+
+    // Fonction qui permet de retourner la donnée
+    handler: (request, h) => {
+        // Requête SQL qui retourne les valeurs souhaité dans la requête. 
+        return db.raw("SELECT ci.*, SUM(hd.from_gen_to_consumer) AS gtc , SUM(hd.from_gen_to_grid) as gtg FROM client_info AS ci INNER JOIN history_daily AS hd ON UUID(hd.id) = ci.id GROUP BY ci.id");
+    }
+} 
+```
+
+On récuperera la donnée en accédant à l'url [http://localhost:3000/mes-clients](http://localhost:3000/mes-clients).
 
 ### Requêtes SQL importantes : 
 Récupérer les ID commun aux tables `history_daily` & `history_fronius` : 
@@ -23,21 +116,42 @@ SELECT DISTINCT UUID(hd.id), hd.name, hd.street, hd.zipcode, hd.country, hf.devi
 ```
 
 Récupérer le taux d'auto-consommation par client : 
+
+/!\ Il ne faut pas utiliser cette fonction SQL. La fonction est longue car elle réalise des calculs directement dans la requête. SQL n'est pas un langage optimisé pour réaliser des appels de données de la sorte. Il faut récupérer la donnée puis traiter ces dernières et réaliser le calcul dans le back-end ou le front-end de l'application. /!\
 ```
 SELECT DISTINCT id, ((SUM(hd.from_gen_to_consumer) / (SUM(hd.from_gen_to_consumer) + SUM(hd.from_gen_to_grid))) * 100) FROM history_daily AS hd INNER JOIN history_fronius AS hf ON hf.device_id = UUID(hd.id) GROUP BY id;
 ```
 
-### Utilisation de .Env 
-Dans le dossier .env de notre serveur node, nous avons laissé toute les données sensibles dans ce fichier afin qu'elle ne soit pas récupérable sur le dossier git du projet. 
+## FRONT-ANGULAR
+La partie front-end de ce projet est réalisé en Angular 9.  
 
-## FRONT-ANGULAR | front
+### Pour installer le projet 
+Pour installer tous les packages : 
 
-Le front de ce projet est réalisé en Angular 8. 
+Dans le dossier PROJET_DATA : 
+
+```
+cd front-angular
+cd projet-data-front
+npm install 
+```
+
+Angular va installer toute ses dépendances aux différents packages qui composent Angular. 
+
+Une fois que tous les packages sont installés : 
+
+Dans le dossier projet-data-front : 
+```
+ng serve -o
+```
+Cette commande permettra de démarrer le serveur qui va faire tourner l'application angular. L'ajout du `-o` après la commande `ng serve` permet d'ouvrir directement la web app sur le navigateur web. 
+
+*Vous retrouverez ci-dessous une explication de la mise en place de l'application Angular*
 
 ### Gestion des Modules & Composants 
 Nous procéderons à une gestion par module pour tous les composants créés. Chaque outils sera encapsulé dans son propre `module`.  
 
-Le rôle de ce `composant` sera de traiter les données nécessaire au fonctionnement de l'outils c'est lui qui sera en lien direct avec les différents `services`. 
+Le rôle de ce `composant` sera de traiter les données nécessaire au fonctionnement de l'outils c'est lui qui sera en lien direct avec les différents [`services`](#Services). 
 
 Les autres composants du modules seront des des composants de présentations. 
 
@@ -48,12 +162,11 @@ On essayera de ne pas depasser  3 niveaux de profondeur hierarchique pour les re
 Chaque outils sera encapsulé dans son propre `module`. 
 
 Il sera créé de la manière suivante depuis le repertorie src du projet: 
+```
+ng g m MODULE_NAME [-m=OTHER_MODULE_NAME]
+````
 
-    ng g m MODULE_NAME [-m=OTHER_MODULE_NAME]
-
-Cette commande créera directement un module du nom `MODULE_NAME` dans le répertorie `MODULE_NAME` en le déclarant dans le module `OTHER_MODULE_NAME`  
-
-donc pour créer l'outils "HOME" nous ferons:
+Cette commande créera directement un module du nom `MODULE_NAME` dans le répertorie `MODULE_NAME` en le déclarant dans le module `OTHER_MODULE_NAME`. Pour créer l'outils "HOME" nous ferons:
 ```    
 ng g m home -m=app
 ```
@@ -69,9 +182,9 @@ donc dans notre exemple pour l'outils comp nous aurons:
     ng g c home/home --export
 
 
-Ce composant servira uniquement à definir la structure de l'outils en appelant les differents composant le definissant et à gérer les données du modules.
+Ce composant servira uniquement à definir la structure de l'outil en appelant les differents composants le definissant et à gérer les données du modules.
 
-Tous les appels de webservices depuis l'API se feront à partir de ce composant. Ainsi il devra importer les informations necessaires concernat l'operation qu'il souhaite utiliser. Il est important d'importer le service ApiService de la sorte pour pouvoir utiliser les appels d'API : 
+Tous les appels de webservices depuis l'API se feront à partir de ce composant. Ainsi il devra importer les informations necessaires concernant l'operation qu'il souhaite utiliser. Il est important d'importer le service ApiService de la sorte pour pouvoir utiliser les appels d'API : 
 ``` 
 import { ApiService } from './services/api.service'; 
 ```
@@ -97,10 +210,9 @@ Pour importer les données depuis l'API :
 1. Réaliser une fonction qui va réaliser la requête souhaité (lien de l'API) dans le service `api.service.ts`. 
 Dans le fichier api.service.ts : 
     ```
-    APILink = "http://localhost:3000/api";
+    // Lien définit dans le fichier './server-node/routes/clients.js'
+    APILink = "http://localhost:3000/mes-clients";
     public getApi() {
-        console.log("this is the service");
-        console.log(this.http.get(this.APILink));
         return this.http.get(this.APILink);
     }
     ```
@@ -131,16 +243,17 @@ Tous les appels de données se feront dans ce composant pour avoir une vue d'ens
     ```
 
 
-<!-- ###### Services :  -->
+### Services : 
 
+Les services servent principalement à récupérer des données ou des fonctions dans différents composants d'une application Angular. Les services sont des objets qui récupèrent des fonctions durant seulement un [cycle de vie (lifecycle-hooks)](https://angular.io/guide/lifecycle-hooks) d'appel.
 
 ### UI-Kit 
 #### Material Design
-Pour mener à bien le projet, nous utiliserons la bibliothèque Material Design directement proposé par Angular. Cette bibliothèque est disponible à l'adresse suivante : [Angular Material Design Components](https://material.angular.io/components/categories)
+Pour mener à bien le projet, nous utiliserons la bibliothèque Material Design directement par Angular. Cette bibliothèque est disponible à l'adresse suivante : [Angular Material Design Components](https://material.angular.io/components/categories). 
 
 Une liste de composants est directement proposé par Angular. Elle est utilisable très facilement à la manière d'un composant. Cela permet de garder une homogénéité entre les composants material du projet. 
 
-En suivant les instructions de la documentation un thème sera mis en place pour respecter la charte graphique recommandé. [Angular Theming](https://material.angular.io/guide/theming)  
+En suivant les instructions de la documentation un thème sera mit en place pour respecter la charte graphique recommandé. [Angular Theming](https://material.angular.io/guide/theming)  
 
 *Contraintes* : certains éléments ne peuvent pas totalement être modifié ou que partiellement. C'est pourquoi lors de l'utilisation de certain composant material design, il est impératif de voir à quel degré le composant Material peut être modifié.  
 
@@ -168,7 +281,7 @@ Avec l'appel du composant `app-graph` il faudra passer des paramètres qui perme
 Pour comprendre l'utilisation de Chart.js se rendre sur [la documentation officiel](https://www.chartjs.org/docs/latest/) de Chart.js. 
 
 ### Router pour le front 
-Afin de naviguer dans notre application, le composant `app-routing.module.ts` a été mis en place. 
+Afin de naviguer dans notre application, le composant `app-routing.module.ts` a été mit en place. 
 
 Dans ce composant il faudra créer les routes possible vers les composants créés. Pour cela il faudra importer le composant au haut du fichier. 
 
@@ -191,6 +304,6 @@ En mettant l'adresse : `http://localhost:4200/graph` nous accederons donc au com
 
 #### Créer des liens dans l'application
 Dans le cas où nous créerons des liens dans l'application, il suffit de rentrer ce que nous avons mis dans le `path` pour acceder au composant. Exemple pour arriver au composant TestGrapComponent : 
-````
+```
 <a href="/graph"> Accéder au composant Graph </a>
 ```
