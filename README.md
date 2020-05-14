@@ -57,7 +57,7 @@ A l'aide du package [Hapi](https://hapi.dev/module/joi/) nous réalisons des app
 C'est dans ce dossier qu'il faudra ajouter les données d'accès à la BDD.
 
 #### La base de donnée 
-La base de donnée est en [PostgreSQL](www.postgresq.org). Le lexicon pour comprendre la base de donnée est disponible [ici](https://docs.google.com/spreadsheets/d/1s5LiPCOij9GBwyNILwDXpDZkP1mxGnaD-05oK0PcxFc/edit#gid=0): 
+La base de donnée est en [PostgreSQL](www.postgresq.org). Le lexicon pour comprendre la base de donnée est disponible [ici](https://docs.google.com/spreadsheets/d/1s5LiPCOij9GBwyNILwDXpDZkP1mxGnaD-05oK0PcxFc/edit#gid=0). 
 
 ### Pour réaliser des requêtes SQL
 Pour récupérer les données, il faudra réaliser des requêtes SQL. P il faudra créer les routes d'API. 
