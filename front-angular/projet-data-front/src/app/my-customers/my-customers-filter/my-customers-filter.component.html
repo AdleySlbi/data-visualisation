@@ -1,0 +1,44 @@
+<!-- A exporter en autre composant -->
+<div class="container-fluid wrapper-filter-liste">
+    <div class="row align-items-center">
+        <mat-card class="one-filter">
+            <!-- <span class="col-md-2 one-filter"> Mes clients</span> -->
+            <span > Mes clients </span>
+        </mat-card>
+        <mat-card *ngFor="let filter of listeFiltre" class="one-filter">
+            <!-- <span class="col-md-2 one-filter"> Mes clients</span> -->
+            <span id="{{filter.filter}}"> {{ filter.filter }} </span>
+            <!-- On click supprimer le filtre -->
+            <!-- @ToDo, Créer une la fonction pour supprimer le filtre -->
+            <span (click)="deleteFilter('id')" class="one-filter-croix">X</span>
+        </mat-card>
+        
+        <form [formGroup]="formForSelect" (ngSubmit)="onSubmit()">
+            <mat-form-field style="margin-right: 15px;">
+                <mat-label>Liste des filtres</mat-label>
+                <mat-select matNativeControl formControlName="filter">
+                    <mat-option value="bilans_a_valider">Avec des bilans attendant validation</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button type="submit">Ajouter un filtre</button>
+        </form>
+
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col-md-1 wrapper-filter-liste-clients">
+            <span> xxx clients sur xxx</span>
+        </div>
+        <div class="col-md-2">
+            <!-- ajouter la demande de requête ici -->
+            <button mat-raised-button (click)="testOnClick()">Envoyer un message</button>
+        </div>
+        <div class="col-md-2">
+            <button mat-raised-button>Envoyer un mail</button>
+        </div>
+        <div class="col-md-2">
+            <a href="#">Plus d'actions</a>
+        </div>
+    </div>
+</div>
+<!-- A exporter en autre composant -->

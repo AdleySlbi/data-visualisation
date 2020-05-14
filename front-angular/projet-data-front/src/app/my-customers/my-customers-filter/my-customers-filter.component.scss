@@ -1,0 +1,21 @@
+.wrapper-filter-liste-clients {
+    margin: 20px 0;
+    font-size: 12px;
+    color: #254050;
+}
+
+.select-wrapper {
+    display: none;
+}
+
+.one-filter {
+    padding: 10px;
+    margin-right: 20px;
+    background-color: #A9A9A940;
+    .one-filter-croix {
+        color: #FF5E3B;
+        margin-left: 10px;
+        cursor: pointer;
+        font-size: bold;
+    }
+}

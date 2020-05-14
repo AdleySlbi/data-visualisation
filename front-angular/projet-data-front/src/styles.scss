@@ -10,3 +10,15 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Lato', sans-serif !important; }
+
+
+// For my-customer-table
+.my-customers-table {
+  .mat-sort-header {
+    .mat-sort-header-container {
+        .mat-sort-header-button {
+            text-transform: uppercase;
+        }
+    }
+  }
+}
