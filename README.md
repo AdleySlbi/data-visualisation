@@ -54,7 +54,10 @@ npm run start
 ## Récupération des données depuis la BDD 
 
 A l'aide du package [Hapi](https://hapi.dev/module/joi/) nous réalisons des appels vers la base de donnée. Les acccès à la base de donnée sont sécurisés et gardés en local à l'aide du package [.ENV](https://www.npmjs.com/package/dotenv.). 
-C'est dans ce dossier qu'il faudra ajouter les données d'accès à la BDD. 
+C'est dans ce dossier qu'il faudra ajouter les données d'accès à la BDD.
+
+#### La base de donnée 
+La base de donnée est en [PostgreSQL](www.postgresq.org). Le lexicon pour comprendre la base de donnée est disponible [ici](https://docs.google.com/spreadsheets/d/1s5LiPCOij9GBwyNILwDXpDZkP1mxGnaD-05oK0PcxFc/edit#gid=0): 
 
 ### Pour réaliser des requêtes SQL
 Pour récupérer les données, il faudra réaliser des requêtes SQL. P il faudra créer les routes d'API. 
