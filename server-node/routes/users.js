@@ -5,17 +5,9 @@ const db = require('../config/database')
 exports.viewUsers = {
     method: 'GET',
     path: '/api/users',
-    options: {
-        validate: {
-            query: joi.object().keys({
-                limit: joi.number().integer().min(1).max(100).default(20),
-                offset: joi.number().integer().min(0).default(0)
-            })
-        }
-    },
     // la fonction qui va être executer dès qu'une requête est réalisé avec la method get sur le path indiqué.  
     handler: async (req, toolkit) => {
-        return db.select().from('users').limit(req.query.limit).offset(req.query.offset).then(result => {
+        return db.select('*').from('client_info').then(result => {
             return toolkit.response({
                 statusCode: 200,
                 message: 'Ok',
@@ -30,6 +22,7 @@ exports.viewUsers = {
             }).code(202);
         })
             .catch(err => {
+                console.log(err)
                 return toolkit.response({
                     statusCode: 500,
                     message: 'Bad request',

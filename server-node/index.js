@@ -14,7 +14,7 @@ const init = async () => {
         }
     });
 
-    // server.route( require('./routes/users').viewUsers );
+    server.route( require('./routes/users').viewUsers );
     // server.route( require('./routes/users').newPanel );
     // server.route( require('./routes/users').newUser );
     server.route(require('./routes/base').test);
