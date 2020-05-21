@@ -5,7 +5,7 @@
                 <div *ngIf="!my_customers">
                     <mat-spinner >Récupération des clients...</mat-spinner>
                 </div>
-                <app-my-customers-table *ngIf="my_customers" [my_customers]="my_customers.rows" class="col-md-12 wrapper-customers-table" (filterToPassForWS)="getMyCustomersFilters($event)"></app-my-customers-table>
+                <app-my-customers-table *ngIf="my_customers" [my_customers]="my_customers" class="col-md-12 wrapper-customers-table" (filterToPassForWS)="getMyCustomersFilters($event)"></app-my-customers-table>
             </div>  
         </mat-card>
     </div>

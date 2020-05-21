@@ -14,7 +14,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 })
 export class MyCustomersComponent implements OnInit {
 
-  public my_customers;
+  public my_customers = null;
 
   constructor(
     private apiservice: ApiService,

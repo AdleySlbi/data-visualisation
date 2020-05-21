@@ -1,9 +1,8 @@
 // SQLite3
 // -------
-const Bluebird = require('bluebird');
-
 const inherits = require('inherits');
-const { isUndefined, map, defaults } = require('lodash');
+const defaults = require('lodash/defaults');
+const map = require('lodash/map');
 const { promisify } = require('util');
 
 const Client = require('../../client');
@@ -17,7 +16,7 @@ const SQLite3_Formatter = require('./formatter');
 
 function Client_SQLite3(config) {
   Client.call(this, config);
-  if (isUndefined(config.useNullAsDefault)) {
+  if (config.useNullAsDefault === undefined) {
     this.logger.warn(
       'sqlite does not support inserting default values. Set the ' +
         '`useNullAsDefault` flag to hide this warning. ' +
@@ -63,7 +62,7 @@ Object.assign(Client_SQLite3.prototype, {
 
   // Get a raw connection from the database, returning a promise with the connection object.
   acquireRawConnection() {
-    return new Bluebird((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const db = new this.driver.Database(
         this.connectionSettings.filename,
         (err) => {
@@ -98,13 +97,13 @@ Object.assign(Client_SQLite3.prototype, {
       default:
         callMethod = 'all';
     }
-    return new Bluebird(function(resolver, rejecter) {
+    return new Promise(function (resolver, rejecter) {
       if (!connection || !connection[callMethod]) {
         return rejecter(
           new Error(`Error calling ${callMethod} on connection.`)
         );
       }
-      connection[callMethod](obj.sql, obj.bindings, function(err, response) {
+      connection[callMethod](obj.sql, obj.bindings, function (err, response) {
         if (err) return rejecter(err);
         obj.response = response;
 
@@ -118,17 +117,17 @@ Object.assign(Client_SQLite3.prototype, {
 
   _stream(connection, sql, stream) {
     const client = this;
-    return new Bluebird(function(resolver, rejecter) {
+    return new Promise(function (resolver, rejecter) {
       stream.on('error', rejecter);
       stream.on('end', resolver);
       return client
         ._query(connection, sql)
         .then((obj) => obj.response)
         .then((rows) => rows.forEach((row) => stream.write(row)))
-        .catch(function(err) {
+        .catch(function (err) {
           stream.emit('error', err);
         })
-        .then(function() {
+        .then(function () {
           stream.end();
         });
     });

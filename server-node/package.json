@@ -8,15 +8,15 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
-    "@hapi/hapi": "~19.0.5",
+    "@hapi/hapi": "^19.1.1",
     "@hapi/joi": "~17.0.2",
     "@hapi/wreck": "^17.0.0",
     "demon": "~1.4.4",
     "dotenv": "^8.2.0",
-    "knex": "~0.20.8",
+    "knex": "^0.21.1",
     "node-fetch": "^2.6.0",
     "nodemon": "^2.0.2",
-    "pg": "~7.17.1"
+    "pg": "^8.0.3"
   },
   "devDependencies": {}
 }

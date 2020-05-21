@@ -12,14 +12,10 @@ exports.viewUsers = {
                 statusCode: 200,
                 message: 'Ok',
                 errors: null,
-                meta: {
-                    params: req.params,
-                    query: req.query,
-                },
                 data: {
                     data: result
                 }
-            }).code(202);
+            }).code(200);
         })
             .catch(err => {
                 console.log(err)
@@ -29,10 +25,6 @@ exports.viewUsers = {
                     errors: [
                         { message: "Failed to connect to database" }
                     ],
-                    meta: {
-                        params: req.params,
-                        query: req.query,
-                    },
                     data: null
                 }).code(500);
             });

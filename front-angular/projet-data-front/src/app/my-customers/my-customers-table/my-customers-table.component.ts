@@ -87,11 +87,11 @@ export class MyCustomersTableComponent implements OnInit {
     // Variable i afin d'évoluer dans le tableau
     this.num_client = 0;
     // Boucler sur chaque élément du tableau
-    this.my_customers.forEach(element => {
+    this.my_customers.data.data.forEach(element => {
       // Calcul, ratioConsoOne est le résultat du calcul 
       let ratioConsoOne = ((element.gtc / (element.gtc + element.gtg)) * 100);
       // Récupérer la position
-      let the_customer = this.my_customers[this.num_client];
+      let the_customer = this.my_customers.data.data[this.num_client];
       // Affecter le résultat du calcul 
       if (ratioConsoOne > 0 && ratioConsoOne < 20) {
         the_customer["ratio"] = '5 - Faible';
@@ -112,7 +112,7 @@ export class MyCustomersTableComponent implements OnInit {
       this.num_client = this.num_client + 1;
     });
     // Affectation et Utilisation du `MatTableDataSource` pour pouvoir créer le tableau et ajouter les filtres + pagination 
-    this.dataSource = new MatTableDataSource(this.my_customers);
+    this.dataSource = new MatTableDataSource(this.my_customers.data.data);
   }
 
   // On receptionne la liste des filtres pour ensuite le re-output vers le composant principal pour pouvoir faire l'appel de donné
@@ -127,7 +127,7 @@ export class MyCustomersTableComponent implements OnInit {
   openCreateList(){
     let dialogRef = this.dialog.open(MyCustomersNewListComponent, {
       width: '80%',
-      data: this.my_customers
+      data: this.my_customers.data.data
     })
   }
 

@@ -14,15 +14,18 @@ const init = async () => {
         }
     });
 
-    server.route( require('./routes/users').viewUsers );
+    // server.route( require('./routes/users').viewUsers );
     // server.route( require('./routes/users').newPanel );
     // server.route( require('./routes/users').newUser );
-    server.route(require('./routes/base').test);
-    server.route(require('./routes/solcast').solcast);
+    // server.route(require('./routes/base').test);
 
     // Ecran mes clients : récupérer tous les clients du conseiller
     server.route(require('./routes/clients').mes_clients);
     server.route(require('./routes/clients').mes_clients_filters);
+
+    // Récupérer la route pour l'api solecast
+    server.route(require('./routes/solcast').solcast);
+
 
     await server.start();
 
