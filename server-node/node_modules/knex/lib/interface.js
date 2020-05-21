@@ -1,17 +1,21 @@
-const { isEmpty, map, clone, each } = require('lodash');
-const Bluebird = require('bluebird');
+const clone = require('lodash/clone');
+const isEmpty = require('lodash/isEmpty');
+const { callbackify } = require('util');
+const finallyMixin = require('./util/finally-mixin');
 
-module.exports = function(Target) {
-  Target.prototype.toQuery = function(tz) {
+module.exports = function (Target) {
+  Target.prototype.toQuery = function (tz) {
     let data = this.toSQL(this._method, tz);
     if (!Array.isArray(data)) data = [data];
-    return map(data, (statement) => {
-      return this.client._formatQuery(statement.sql, statement.bindings, tz);
-    }).join(';\n');
+    return data
+      .map((statement) => {
+        return this.client._formatQuery(statement.sql, statement.bindings, tz);
+      })
+      .join(';\n');
   };
 
   // Create a new instance of the `Runner`, passing in the current object.
-  Target.prototype.then = function(/* onFulfilled, onRejected */) {
+  Target.prototype.then = function (/* onFulfilled, onRejected */) {
     let result = this.client.runner(this).run();
 
     if (this.client.config.asyncStackTraces) {
@@ -25,31 +29,31 @@ module.exports = function(Target) {
       });
     }
 
-    return Bluebird.resolve(result.then.apply(result, arguments));
+    return result.then.apply(result, arguments);
   };
 
   // Add additional "options" to the builder. Typically used for client specific
   // items, like the `mysql` and `sqlite3` drivers.
-  Target.prototype.options = function(opts) {
+  Target.prototype.options = function (opts) {
     this._options = this._options || [];
     this._options.push(clone(opts) || {});
     return this;
   };
 
   // Sets an explicit "connection" we wish to use for this query.
-  Target.prototype.connection = function(connection) {
+  Target.prototype.connection = function (connection) {
     this._connection = connection;
     return this;
   };
 
   // Set a debug flag for the current schema query stack.
-  Target.prototype.debug = function(enabled) {
+  Target.prototype.debug = function (enabled) {
     this._debug = arguments.length ? enabled : true;
     return this;
   };
 
   // Set the transaction object for this query.
-  Target.prototype.transacting = function(t) {
+  Target.prototype.transacting = function (t) {
     if (t && t.client) {
       if (!t.client.transacting) {
         t.client.logger.warn(`Invalid transaction value: ${t.client}`);
@@ -69,43 +73,28 @@ module.exports = function(Target) {
   };
 
   // Initializes a stream.
-  Target.prototype.stream = function(options) {
+  Target.prototype.stream = function (options) {
     return this.client.runner(this).stream(options);
   };
 
   // Initialize a stream & pipe automatically.
-  Target.prototype.pipe = function(writable, options) {
-    return this.client.runner(this).pipe(
-      writable,
-      options
-    );
+  Target.prototype.pipe = function (writable, options) {
+    return this.client.runner(this).pipe(writable, options);
   };
 
-  // Creates a method which "coerces" to a promise, by calling a
-  // "then" method on the current `Target`
-  each(
-    [
-      'bind',
-      'catch',
-      'finally',
-      'asCallback',
-      'spread',
-      'map',
-      'reduce',
-      'thenReturn',
-      'return',
-      'yield',
-      'ensure',
-      'reflect',
-      'get',
-      'mapSeries',
-      'delay',
-    ],
-    function(method) {
-      Target.prototype[method] = function() {
-        const promise = this.then();
-        return promise[method].apply(promise, arguments);
-      };
-    }
-  );
+  Target.prototype.asCallback = function (cb) {
+    const promise = this.then();
+    callbackify(() => promise)(cb);
+    return promise;
+  };
+
+  Target.prototype.catch = function (onReject) {
+    return this.then().catch(onReject);
+  };
+
+  Object.defineProperty(Target.prototype, Symbol.toStringTag, {
+    get: () => 'object',
+  });
+
+  finallyMixin(Target.prototype);
 };
