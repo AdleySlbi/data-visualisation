@@ -10,11 +10,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <span class="col-md-12">Foyers à booster @TodoFiltres</span>
-            </div>
-            <div class="row">
                 <mat-card class="one-filter"> Mes clients </mat-card>
-                <mat-card class="one-filter"> @TODO Ajouter pour chaque filtre </mat-card>
+                <ng-container *ngFor="let filter of data.liste_filter">
+                    <mat-card class="one-filter"> {{filter.filter}} </mat-card>
+                </ng-container>
             </div>
         </div>
     </div>
@@ -55,6 +54,12 @@
             <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
 
         </table>
+    </div>
+
+    <div class="row justify-content-end">
+        <!-- @TODO donner des fonctions à ces deux boutons -->
+        <button mat-raised-button mat-dialog-close> Annuler </button>
+        <button mat-raised-button color="primary"> Créer la liste </button>
     </div>
 
 </ng-container>

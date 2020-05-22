@@ -36,6 +36,7 @@ export class MyCustomersTableComponent implements OnInit {
   private sort: MatSort;
   public dataSource: MatTableDataSource<any>;
   public total_client;
+  public liste_filter = null;
 
   // Ce qu'il y a à afficher dans le tableau
   // columnsToDisplay = ['name', 'date_installation', 'departement', 'zipcode', 'niveau', 'categorie', 'ratio', 'contact'];
@@ -117,6 +118,7 @@ export class MyCustomersTableComponent implements OnInit {
 
   // On receptionne la liste des filtres pour ensuite le re-output vers le composant principal pour pouvoir faire l'appel de donné
   onFilterPassed(theFilters){
+    this.liste_filter = theFilters;
     this.filterToPassForWS.emit(theFilters);
     document.getElementById('button-list').removeAttribute("disabled");
   }
@@ -127,7 +129,10 @@ export class MyCustomersTableComponent implements OnInit {
   openCreateList(){
     let dialogRef = this.dialog.open(MyCustomersNewListComponent, {
       width: '80%',
-      data: this.my_customers.data.data
+      data: {
+        my_customers : this.my_customers.data.data,
+        liste_filter : this.liste_filter
+      }
     })
   }
 

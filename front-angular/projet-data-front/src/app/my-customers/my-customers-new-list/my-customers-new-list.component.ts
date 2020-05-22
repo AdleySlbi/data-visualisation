@@ -19,7 +19,8 @@ export class MyCustomersNewListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnsToDisplay = ['name', 'date_installation', 'departement', 'niveau', 'ratio'];
-    this.dataSource = new MatTableDataSource(this.data);
+    this.dataSource = new MatTableDataSource(this.data.my_customers);
+    console.log(this.data.liste_filter);
   }
 
 }
