@@ -22,6 +22,7 @@ const init = async () => {
     // Ecran mes clients : récupérer tous les clients du conseiller
     server.route(require('./routes/clients').mes_clients);
     server.route(require('./routes/clients').mes_clients_filters);
+    server.route(require('./routes/clients').new_list);
 
     // Récupérer la route pour l'api solecast
     server.route(require('./routes/solcast').solcast);
